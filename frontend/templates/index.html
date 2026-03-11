@@ -14,65 +14,101 @@
             theme: {
                 extend: {
                     colors: {
-                        // 古风配色
+                        // 新的现代古风配色
+                        'theme': {
+                            primary: '#EED046',      // 明黄 - 主色调
+                            secondary: '#5698C3',    // 蓝绿 - 辅助色
+                            accent: '#407763',        // 青绿 - 点缀色
+                            dark: '#1a2a3a',          // 深色背景
+                            light: '#f8f6f0',         // 浅色背景
+                            gold: '#EED046',          // 金色
+                            'blue': '#5698C3',        // 蓝色
+                            'green': '#407763',       // 绿色
+                        },
                         'ancient': {
-                            ink: '#1a1a2e',        // 墨色
-                            paper: '#f5f0e8',      // 宣纸色
-                            gold: '#c9a227',       // 金色
-                            vermilion: '#e74c3c',  // 朱砂红
-                            jade: '#2ecc71',       // 玉色
-                            blue: '#3498db',       // 青蓝
-                            brown: '#8b4513',      // 褐色
-                            cream: '#fdf5e6',      // 奶油色
-                            dark: '#2c1810',       // 深褐
+                            ink: '#1a1a2e',
+                            paper: '#f5f0e8',
+                            gold: '#EED046',          // 更新为新配色
+                            vermilion: '#e74c3c',
+                            jade: '#407763',          // 更新为新配色
+                            blue: '#5698C3',          // 更新为新配色
+                            brown: '#8b4513',
+                            cream: '#fdf5e6',
+                            dark: '#2c1810',
                         }
                     },
                     fontFamily: {
                         'calligraphy': ['"Ma Shan Zheng"', 'cursive'],
                         'serif-cn': ['"Noto Serif SC"', 'serif'],
+                    },
+                    boxShadow: {
+                        'elegant': '0 10px 40px rgba(86, 152, 195, 0.15)',
+                        'glow': '0 0 30px rgba(238, 208, 70, 0.3)',
+                        'float': '0 20px 40px rgba(26, 42, 58, 0.1)',
                     }
                 }
             }
         }
     </script>
     <style>
-        /* 自定义滚动条 */
+        /* 自定义滚动条 - 现代风格 */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #f5f0e8;
+            background: linear-gradient(135deg, #f8f6f0 0%, #f0ede5 100%);
         }
         ::-webkit-scrollbar-thumb {
-            background: #c9a227;
-            border-radius: 3px;
+            background: linear-gradient(135deg, #EED046 0%, #d4b83e 100%);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #d4b83e 0%, #c4a83e 100%);
         }
 
-        /* 古风边框 */
-        .ancient-border {
-            border: 2px solid #c9a227;
+        /* 玻璃态效果 */
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-dark {
+            background: rgba(26, 42, 58, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* 渐变文字 */
+        .text-gradient {
+            background: linear-gradient(135deg, #EED046 0%, #5698C3 50%, #407763 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* 现代边框 */
+        .elegant-border {
+            border: 1px solid rgba(238, 208, 70, 0.3);
             position: relative;
         }
-        .ancient-border::before,
-        .ancient-border::after {
+        .elegant-border::before {
             content: '';
             position: absolute;
-            width: 10px;
-            height: 10px;
-            border: 2px solid #c9a227;
-        }
-        .ancient-border::before {
-            top: -5px;
-            left: -5px;
-            border-right: none;
-            border-bottom: none;
-        }
-        .ancient-border::after {
-            bottom: -5px;
-            right: -5px;
-            border-left: none;
-            border-top: none;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, #EED046, #5698C3, #407763);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
         }
 
         /* 拼音样式 */
@@ -80,8 +116,8 @@
             ruby-align: center;
         }
         ruby rt {
-            font-size: 0.5em;
-            color: #8b4513;
+            font-size: 0.45em;
+            color: #5698C3;
         }
 
         /* 水墨背景动画 */
@@ -94,16 +130,36 @@
             animation: inkSpread 8s ease-in-out infinite;
         }
 
+        /* 浮动动画 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* 渐变流动动画 */
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .gradient-flow {
+            background-size: 200% 200%;
+            animation: gradientFlow 5s ease infinite;
+        }
+
         /* 页面切换动画 */
         .page-enter {
-            animation: fadeIn 0.3s ease-out;
+            animation: fadeIn 0.4s ease-out;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 加载动画 - 水墨晕染效果 */
+        /* 加载动画 - 新的渐变风格 */
         .loading-ink {
             position: relative;
             width: 100px;
@@ -114,21 +170,22 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, #c9a227 0%, transparent 70%);
+            background: linear-gradient(135deg, #EED046 0%, #5698C3 50%, #407763 100%);
+            border-radius: 50%;
             animation: inkDrop 1.5s ease-in-out infinite;
         }
         @keyframes inkDrop {
-            0%, 100% { transform: scale(0.3); opacity: 1; }
-            50% { transform: scale(1); opacity: 0.5; }
+            0%, 100% { transform: scale(0.3);; }
+             opacity: 150% { transform: scale(1); opacity: 0.5; }
         }
 
-        /* 卡片悬浮效果 */
+        /* 卡片悬浮效果 - 更精致 */
         .card-hover {
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(201, 162, 39, 0.3);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(86, 152, 195, 0.2), 0 0 0 1px rgba(238, 208, 70, 0.2);
         }
 
         /* 底部导航栏样式 */
@@ -136,84 +193,165 @@
             transition: all 0.3s ease;
         }
         .nav-item.active {
-            color: #c9a227;
+            color: #EED046;
         }
         .nav-item.active::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: -4px;
             left: 50%;
             transform: translateX(-50%);
-            width: 30px;
+            width: 24px;
             height: 3px;
-            background: linear-gradient(90deg, transparent, #c9a227, transparent);
+            background: linear-gradient(90deg, transparent, #EED046, transparent);
             border-radius: 2px;
         }
 
         /* 模态框背景 */
         .modal-backdrop {
-            background: rgba(26, 26, 46, 0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(26, 42, 58, 0.85);
+            backdrop-filter: blur(8px);
         }
 
-        /* 古风按钮 */
-        .btn-ancient {
-            background: linear-gradient(135deg, #c9a227 0%, #8b6914 100%);
-            color: white;
+        /* 现代按钮 */
+        .btn-modern {
+            background: linear-gradient(135deg, #EED046 0%, #d4b83e 100%);
+            color: #1a2a3a;
             border: none;
             position: relative;
             overflow: hidden;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
-        .btn-ancient::before {
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(238, 208, 70, 0.4);
+        }
+        .btn-modern::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
             transition: left 0.5s;
         }
-        .btn-ancient:hover::before {
+        .btn-modern:hover::before {
             left: 100%;
+        }
+
+        /* 按钮 - 蓝色版本 */
+        .btn-blue {
+            background: linear-gradient(135deg, #5698C3 0%, #4a87b0 100%);
+            color: white;
+        }
+        .btn-blue:hover {
+            box-shadow: 0 10px 30px rgba(86, 152, 195, 0.4);
+        }
+
+        /* 按钮 - 绿色版本 */
+        .btn-green {
+            background: linear-gradient(135deg, #407763 0%, #366a56 100%);
+            color: white;
+        }
+        .btn-green:hover {
+            box-shadow: 0 10px 30px rgba(64, 119, 99, 0.4);
         }
 
         /* 诗词卡片 */
         .poem-card {
-            background: linear-gradient(135deg, #fdf5e6 0%, #f5f0e8 100%);
-            border-left: 4px solid #c9a227;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f6f0 100%);
+            border-left: 4px solid #EED046;
+            position: relative;
+            overflow: hidden;
+        }
+        .poem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, transparent 50%, rgba(238, 208, 70, 0.1) 50%);
+            border-radius: 0 0 0 100%;
         }
 
         /* 隐藏页面 */
         .page-hidden {
             display: none;
         }
+
+        /* 渐变背景 */
+        .bg-gradient-elegant {
+            background: linear-gradient(135deg, #1a2a3a 0%, #2a3f52 50%, #1a2a3a 100%);
+        }
+
+        /* 装饰线条 */
+        .decorative-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #EED046, #5698C3, #407763, transparent);
+        }
+
+        /* 闪烁效果 */
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .sparkle {
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        /* 脉冲环 */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.5; }
+            100% { transform: scale(0.95); opacity: 1; }
+        }
+        .pulse-ring {
+            animation: pulse-ring 2s ease-in-out infinite;
+        }
     </style>
 </head>
-<body class="bg-ancient-paper min-h-screen font-serif-cn">
-    <!-- 背景装饰 -->
+<body class="bg-gradient-to-br from-[#f8f6f0] via-[#f0ede5] to-[#e8e5db] min-h-screen font-serif-cn relative">
+    <!-- 动态背景 -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden">
-        <div class="absolute top-0 right-0 w-96 h-96 bg-ancient-gold/10 rounded-full blur-3xl ink-animation"></div>
-        <div class="absolute bottom-0 left-0 w-80 h-80 bg-ancient-brown/10 rounded-full blur-3xl ink-animation" style="animation-delay: -4s;"></div>
+        <!-- 装饰性圆形 -->
+        <div class="absolute top-20 right-10 w-64 h-64 bg-gradient-to-br from-[#EED046]/20 to-[#5698C3]/10 rounded-full blur-3xl ink-animation"></div>
+        <div class="absolute bottom-40 left-10 w-72 h-72 bg-gradient-to-br from-[#407763]/15 to-[#5698C3]/10 rounded-full blur-3xl ink-animation" style="animation-delay: -4s;"></div>
+        <div class="absolute top-1/2 left-1/3 w-40 h-40 bg-[#EED046]/10 rounded-full blur-2xl ink-animation" style="animation-delay: -2s;"></div>
+        <!-- 装饰线条 -->
+        <svg class="absolute top-0 right-0 w-96 h-96 opacity-5" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#5698C3" stroke-width="0.5"/>
+            <circle cx="100" cy="100" r="60" fill="none" stroke="#EED046" stroke-width="0.5"/>
+            <circle cx="100" cy="100" r="40" fill="none" stroke="#407763" stroke-width="0.5"/>
+        </svg>
     </div>
 
     <!-- 主容器 -->
     <div id="app" class="relative z-10 pb-20">
         <!-- 顶部导航栏 -->
-        <header class="sticky top-0 z-50 bg-ancient-paper/95 backdrop-blur-sm border-b border-ancient-gold/30">
+        <header class="sticky top-0 z-50 glass border-b border-white/30">
             <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <div class="w-10 h-10 bg-gradient-to-br from-ancient-gold to-ancient-brown rounded-full flex items-center justify-center">
-                        <i class="fas fa-book-open text-white text-lg"></i>
+                <div class="flex items-center space-x-3">
+                    <!-- Logo -->
+                    <div class="relative">
+                        <div class="w-12 h-12 bg-gradient-to-br from-[#EED046] to-[#d4b83e] rounded-xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-feather-alt text-white text-lg"></i>
+                        </div>
+                        <div class="absolute -top-1 -right-1 w-4 h-4 bg-[#5698C3] rounded-full border-2 border-white"></div>
                     </div>
-                    <h1 class="text-xl font-calligraphy text-ancient-dark">墨韵诗画</h1>
+                    <div>
+                        <h1 class="text-xl font-calligraphy text-gradient font-bold">墨韵诗画</h1>
+                        <p class="text-xs text-[#5698C3]/70 -mt-1">AI 诗词教学系统</p>
+                    </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button id="searchBtn" class="text-ancient-brown hover:text-ancient-gold transition-colors">
-                        <i class="fas fa-search text-lg"></i>
+                    <button id="searchBtn" class="w-10 h-10 rounded-full bg-white/50 hover:bg-[#EED046]/20 flex items-center justify-center transition-all text-[#5698C3] hover:text-[#EED046]">
+                        <i class="fas fa-search"></i>
                     </button>
-                    <button id="userBtn" class="text-ancient-brown hover:text-ancient-gold transition-colors">
-                        <i class="fas fa-user-circle text-xl"></i>
+                    <button id="userBtn" class="w-10 h-10 rounded-full bg-gradient-to-br from-[#5698C3] to-[#407763] flex items-center justify-center transition-all hover:shadow-lg hover:scale-105">
+                        <i class="fas fa-user text-white"></i>
                     </button>
                 </div>
             </div>
@@ -223,31 +361,50 @@
         <main class="max-w-6xl mx-auto px-4 py-6">
             <!-- 首页 - 藏书阁 -->
             <section id="page-home" class="page page-enter">
-                <!-- 搜索栏 -->
+                <!-- 搜索栏 - 现代风格 -->
                 <div class="mb-6">
                     <div class="relative">
                         <input type="text" id="searchInput" placeholder="搜索诗词、诗人..."
-                            class="w-full px-4 py-3 pl-12 bg-white/80 border border-ancient-gold/30 rounded-xl focus:outline-none focus:border-ancient-gold focus:ring-2 focus:ring-ancient-gold/20 text-ancient-dark placeholder-ancient-brown/50">
-                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-ancient-brown/50"></i>
-                    </div>
-                </div>
-
-                <!-- 轮播图 -->
-                <div class="mb-6 relative overflow-hidden rounded-xl ancient-border bg-gradient-to-r from-ancient-ink to-ancient-dark">
-                    <div id="carousel" class="flex transition-transform duration-500">
-                        <div class="min-w-full p-8 flex items-center justify-between">
-                            <div class="text-white">
-                                <h2 class="text-2xl font-calligraphy mb-2">静夜思</h2>
-                                <p class="text-ancient-gold mb-2">李白 · 唐</p>
-                                <p class="text-white/80 text-sm">床前明月光，疑是地上霜...</p>
-                            </div>
-                            <div class="w-32 h-32 bg-gradient-to-br from-ancient-gold/30 to-transparent rounded-full flex items-center justify-center">
-                                <i class="fas fa-moon text-4xl text-ancient-gold"></i>
+                            class="w-full px-6 py-4 pl-14 bg-white/80 backdrop-blur-sm border border-white/50 rounded-2xl focus:outline-none focus:border-[#EED046] focus:ring-4 focus:ring-[#EED046]/10 text-gray-700 placeholder-gray-400 shadow-sm transition-all">
+                        <div class="absolute left-5 top-1/2 -translate-y-1/2">
+                            <i class="fas fa-search text-[#5698C3]/60"></i>
+                        </div>
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                            <div class="w-8 h-8 bg-gradient-to-br from-[#EED046] to-[#d4b83e] rounded-lg flex items-center justify-center shadow-md">
+                                <i class="fas fa-arrow-right text-white text-xs"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2">
-                        <span class="w-2 h-2 bg-ancient-gold rounded-full"></span>
+                </div>
+
+                <!-- 轮播图 - 现代渐变风格 -->
+                <div class="mb-6 relative overflow-hidden rounded-2xl elegant-border shadow-2xl">
+                    <div id="carousel" class="flex transition-transform duration-700">
+                        <div class="min-w-full relative bg-gradient-to-br from-[#1a2a3a] via-[#2a3f52] to-[#1a2a3a] p-10 overflow-hidden">
+                            <!-- 装饰元素 -->
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-[#EED046]/10 rounded-full blur-3xl"></div>
+                            <div class="absolute bottom-0 left-0 w-48 h-48 bg-[#5698C3]/10 rounded-full blur-3xl"></div>
+
+                            <div class="relative z-10 flex items-center justify-between">
+                                <div class="text-white max-w-md">
+                                    <div class="inline-block px-3 py-1 bg-[#EED046]/20 rounded-full text-[#EED046] text-sm mb-3">
+                                        经典推荐
+                                    </div>
+                                    <h2 class="text-4xl font-calligraphy mb-3 text-gradient">静夜思</h2>
+                                    <p class="text-[#5698C3] mb-2">李白 · 唐</p>
+                                    <p class="text-white/70 text-lg leading-relaxed">床前明月光，疑是地上霜。<br>举头望明月，低头思故乡。</p>
+                                </div>
+                                <div class="relative">
+                                    <div class="w-40 h-40 bg-gradient-to-br from-[#EED046]/30 to-transparent rounded-full flex items-center justify-center pulse-ring">
+                                        <i class="fas fa-moon text-6xl text-[#EED046] float-animation"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 轮播指示器 -->
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                        <span class="w-3 h-3 bg-[#EED046] rounded-full"></span>
                         <span class="w-2 h-2 bg-white/30 rounded-full"></span>
                         <span class="w-2 h-2 bg-white/30 rounded-full"></span>
                     </div>
@@ -255,35 +412,45 @@
 
                 <!-- 分类导航 -->
                 <div class="mb-6">
-                    <h3 class="text-lg font-semibold text-ancient-dark mb-3">
-                        <i class="fas fa-th-large text-ancient-gold mr-2"></i>分类浏览
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
+                        <i class="fas fa-th-large text-[#5698C3] mr-2"></i>分类浏览
                     </h3>
                     <div class="grid grid-cols-4 gap-3">
-                        <button class="category-btn bg-white/80 p-4 rounded-xl border border-ancient-gold/20 hover:border-ancient-gold hover:shadow-lg transition-all text-center" data-category="dynasty">
-                            <i class="fas fa-landmark text-ancient-gold text-xl mb-2"></i>
-                            <p class="text-sm text-ancient-dark">按朝代</p>
+                        <button class="category-btn group bg-white/70 backdrop-blur-sm p-4 rounded-2xl border border-white/50 hover:border-[#EED046] hover:shadow-lg hover:shadow-[#EED046]/20 transition-all text-center" data-category="dynasty">
+                            <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-br from-[#5698C3] to-[#407763] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fas fa-landmark text-white text-lg"></i>
+                            </div>
+                            <p class="text-sm text-gray-700 font-medium">按朝代</p>
                         </button>
-                        <button class="category-btn bg-white/80 p-4 rounded-xl border border-ancient-gold/20 hover:border-ancient-gold hover:shadow-lg transition-all text-center" data-category="theme">
-                            <i class="fas fa-palette text-ancient-jade text-xl mb-2"></i>
-                            <p class="text-sm text-ancient-dark">按主题</p>
+                        <button class="category-btn group bg-white/70 backdrop-blur-sm p-4 rounded-2xl border border-white/50 hover:border-[#EED046] hover:shadow-lg hover:shadow-[#EED046]/20 transition-all text-center" data-category="theme">
+                            <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-br from-[#EED046] to-[#d4b83e] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fas fa-palette text-white text-lg"></i>
+                            </div>
+                            <p class="text-sm text-gray-700 font-medium">按主题</p>
                         </button>
-                        <button class="category-btn bg-white/80 p-4 rounded-xl border border-ancient-gold/20 hover:border-ancient-gold hover:shadow-lg transition-all text-center" data-category="grade">
-                            <i class="fas fa-graduation-cap text-ancient-blue text-xl mb-2"></i>
-                            <p class="text-sm text-ancient-dark">按年级</p>
+                        <button class="category-btn group bg-white/70 backdrop-blur-sm p-4 rounded-2xl border border-white/50 hover:border-[#EED046] hover:shadow-lg hover:shadow-[#EED046]/20 transition-all text-center" data-category="grade">
+                            <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-br from-[#407763] to-[#366a56] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fas fa-graduation-cap text-white text-lg"></i>
+                            </div>
+                            <p class="text-sm text-gray-700 font-medium">按年级</p>
                         </button>
-                        <button class="category-btn bg-white/80 p-4 rounded-xl border border-ancient-gold/20 hover:border-ancient-gold hover:shadow-lg transition-all text-center" data-category="random">
-                            <i class="fas fa-random text-ancient-vermilion text-xl mb-2"></i>
-                            <p class="text-sm text-ancient-dark">随机推荐</p>
+                        <button class="category-btn group bg-white/70 backdrop-blur-sm p-4 rounded-2xl border border-white/50 hover:border-[#EED046] hover:shadow-lg hover:shadow-[#EED046]/20 transition-all text-center" data-category="random">
+                            <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-br from-[#5698C3] to-[#4a87b0] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fas fa-random text-white text-lg"></i>
+                            </div>
+                            <p class="text-sm text-gray-700 font-medium">随机推荐</p>
                         </button>
                     </div>
                 </div>
 
                 <!-- 分类筛选区 -->
                 <div id="filterSection" class="mb-6 hidden">
-                    <div class="bg-white/80 rounded-xl p-4 border border-ancient-gold/20">
+                    <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/50">
                         <div class="flex items-center justify-between mb-3">
-                            <h4 id="filterTitle" class="text-ancient-dark font-semibold">筛选</h4>
-                            <button id="closeFilter" class="text-ancient-brown hover:text-ancient-gold">
+                            <h4 id="filterTitle" class="text-gray-700 font-semibold flex items-center">
+                                <i class="fas fa-filter text-[#5698C3] mr-2"></i>筛选
+                            </h4>
+                            <button id="closeFilter" class="text-gray-400 hover:text-[#EED046] transition-colors">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -296,10 +463,10 @@
                 <!-- 诗词列表 -->
                 <div>
                     <div class="flex items-center justify-between mb-3">
-                        <h3 class="text-lg font-semibold text-ancient-dark">
-                            <i class="fas fa-book text-ancient-gold mr-2"></i>诗词宝库
+                        <h3 class="text-lg font-semibold text-gray-700 flex items-center">
+                            <i class="fas fa-book text-[#EED046] mr-2"></i>诗词宝库
                         </h3>
-                        <span id="poemCount" class="text-sm text-ancient-brown">共 0 首</span>
+                        <span id="poemCount" class="text-sm text-gray-500 bg-white/50 px-3 py-1 rounded-full">共 0 首</span>
                     </div>
                     <div id="poemList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- 动态填充诗词卡片 -->
@@ -309,10 +476,10 @@
 
             <!-- 诗词详情页 -->
             <section id="page-detail" class="page page-hidden page-enter">
-                <button id="backToList" class="mb-4 text-ancient-brown hover:text-ancient-gold transition-colors flex items-center">
+                <button id="backToList" class="mb-4 text-gray-500 hover:text-[#EED046] transition-colors flex items-center bg-white/50 px-4 py-2 rounded-full">
                     <i class="fas fa-arrow-left mr-2"></i>返回列表
                 </button>
-                <div id="poemDetail" class="bg-white/90 rounded-2xl overflow-hidden shadow-xl border border-ancient-gold/20">
+                <div id="poemDetail" class="bg-white/90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-2xl border border-white/50">
                     <!-- 动态填充详情 -->
                 </div>
             </section>
@@ -320,53 +487,58 @@
             <!-- 点墨轩 - AI创作页 -->
             <section id="page-create" class="page page-hidden page-enter">
                 <div class="text-center mb-6">
-                    <h2 class="text-2xl font-calligraphy text-ancient-dark mb-2">点墨轩</h2>
-                    <p class="text-ancient-brown text-sm">以诗为墨，以AI为笔，绘出你心中的诗画世界</p>
+                    <div class="inline-block mb-2">
+                        <div class="w-20 h-20 mx-auto bg-gradient-to-br from-[#EED046] to-[#5698C3] rounded-2xl flex items-center justify-center shadow-lg float-animation">
+                            <i class="fas fa-feather-alt text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <h2 class="text-3xl font-calligraphy text-gradient mb-2">点墨轩</h2>
+                    <p class="text-gray-500 text-sm">以诗为墨，以AI为笔，绘出你心中的诗画世界</p>
                 </div>
 
-                <div class="bg-white/90 rounded-2xl p-6 shadow-xl border border-ancient-gold/20 mb-6">
-                    <div class="mb-4">
-                        <label class="block text-ancient-dark font-semibold mb-2">
-                            <i class="fas fa-feather-alt text-ancient-gold mr-2"></i>输入诗词
+                <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/50 mb-6">
+                    <div class="mb-5">
+                        <label class="block text-gray-700 font-semibold mb-2 flex items-center">
+                            <i class="fas fa-feather-alt text-[#EED046] mr-2"></i>输入诗词
                         </label>
                         <textarea id="poetryInput" rows="4" placeholder="请输入古诗词，或自由创作..."
-                            class="w-full px-4 py-3 bg-ancient-paper/50 border border-ancient-gold/30 rounded-xl focus:outline-none focus:border-ancient-gold focus:ring-2 focus:ring-ancient-gold/20 text-ancient-dark placeholder-ancient-brown/50 resize-none"></textarea>
+                            class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#EED046] focus:ring-4 focus:ring-[#EED046]/10 text-gray-700 placeholder-gray-400 resize-none transition-all"></textarea>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="block text-ancient-dark font-semibold mb-2">
-                            <i class="fas fa-paint-brush text-ancient-gold mr-2"></i>选择风格
+                    <div class="mb-5">
+                        <label class="block text-gray-700 font-semibold mb-2 flex items-center">
+                            <i class="fas fa-paint-brush text-[#5698C3] mr-2"></i>选择风格
                         </label>
                         <div class="grid grid-cols-3 gap-3">
-                            <button class="style-btn active px-4 py-3 rounded-xl border-2 border-ancient-gold bg-ancient-gold/10 text-ancient-dark font-medium transition-all" data-style="水墨风">
-                                <i class="fas fa-water mr-1"></i>水墨风
+                            <button class="style-btn active px-4 py-4 rounded-2xl border-2 border-[#EED046] bg-[#EED046]/10 text-gray-800 font-medium transition-all hover:shadow-lg" data-style="水墨风">
+                                <i class="fas fa-water mr-2 text-[#5698C3]"></i>水墨风
                             </button>
-                            <button class="style-btn px-4 py-3 rounded-xl border-2 border-ancient-gold/30 text-ancient-brown hover:border-ancient-gold hover:bg-ancient-gold/10 transition-all" data-style="水彩风">
-                                <i class="fas fa-palette mr-1"></i>水彩风
+                            <button class="style-btn px-4 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 hover:border-[#5698C3] hover:bg-[#5698C3]/5 transition-all" data-style="水彩风">
+                                <i class="fas fa-palette mr-2 text-[#5698C3]"></i>水彩风
                             </button>
-                            <button class="style-btn px-4 py-3 rounded-xl border-2 border-ancient-gold/30 text-ancient-brown hover:border-ancient-gold hover:bg-ancient-gold/10 transition-all" data-style="卡通风">
-                                <i class="fas fa-child mr-1"></i>卡通风
+                            <button class="style-btn px-4 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 hover:border-[#407763] hover:bg-[#407763]/5 transition-all" data-style="卡通风">
+                                <i class="fas fa-child mr-2 text-[#407763]"></i>卡通风
                             </button>
                         </div>
                     </div>
 
-                    <button id="generateBtn" class="w-full btn-ancient py-4 rounded-xl text-lg font-semibold transition-all hover:shadow-lg">
+                    <button id="generateBtn" class="w-full btn-modern py-4 rounded-2xl text-lg font-semibold transition-all hover:shadow-xl">
                         <i class="fas fa-magic mr-2"></i>开始创作
                     </button>
                 </div>
 
                 <!-- 生成结果区域 -->
                 <div id="generateResult" class="hidden">
-                    <div class="bg-white/90 rounded-2xl p-6 shadow-xl border border-ancient-gold/20">
-                        <h3 class="text-lg font-semibold text-ancient-dark mb-4">
-                            <i class="fas fa-image text-ancient-gold mr-2"></i>生成结果
+                    <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/50">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center">
+                            <i class="fas fa-image text-[#5698C3] mr-2"></i>生成结果
                         </h3>
 
                         <!-- 加载状态 -->
                         <div id="loadingState" class="text-center py-12">
                             <div class="loading-ink mx-auto mb-4"></div>
-                            <p class="text-ancient-brown">AI正在为您绘制绘本...</p>
-                            <p class="text-sm text-ancient-brown/70 mt-2" id="loadingTip">正在解析诗词意境</p>
+                            <p class="text-gray-600">AI正在为您绘制绘本...</p>
+                            <p class="text-sm text-gray-400 mt-2" id="loadingTip">正在解析诗词意境</p>
                         </div>
 
                         <!-- 结果展示 -->
@@ -375,10 +547,10 @@
                                 <!-- 动态填充图片 -->
                             </div>
                             <div class="mt-4 flex space-x-3">
-                                <button id="publishWork" class="flex-1 btn-ancient py-3 rounded-xl font-semibold">
+                                <button id="publishWork" class="flex-1 btn-modern py-3 rounded-xl font-semibold">
                                     <i class="fas fa-share-alt mr-2"></i>发布到画廊
                                 </button>
-                                <button id="regenerate" class="flex-1 bg-ancient-paper border-2 border-ancient-gold text-ancient-dark py-3 rounded-xl font-semibold hover:bg-ancient-gold/10 transition-all">
+                                <button id="regenerate" class="flex-1 bg-gray-100 border-2 border-gray-200 text-gray-700 py-3 rounded-xl font-semibold hover:border-[#5698C3] hover:bg-[#5698C3]/5 transition-all">
                                     <i class="fas fa-redo mr-2"></i>重新生成
                                 </button>
                             </div>
@@ -390,8 +562,13 @@
             <!-- 群英会 - 画廊页 -->
             <section id="page-gallery" class="page page-hidden page-enter">
                 <div class="text-center mb-6">
-                    <h2 class="text-2xl font-calligraphy text-ancient-dark mb-2">群英会</h2>
-                    <p class="text-ancient-brown text-sm">欣赏众人的诗画佳作，感受不一样的古风韵味</p>
+                    <div class="inline-block mb-2">
+                        <div class="w-20 h-20 mx-auto bg-gradient-to-br from-[#5698C3] to-[#407763] rounded-2xl flex items-center justify-center shadow-lg float-animation">
+                            <i class="fas fa-images text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <h2 class="text-3xl font-calligraphy text-gradient mb-2">群英会</h2>
+                    <p class="text-gray-500 text-sm">欣赏众人的诗画佳作，感受不一样的古风韵味</p>
                 </div>
 
                 <div id="galleryList" class="grid grid-cols-2 gap-4">
@@ -402,55 +579,60 @@
             <!-- 我的 - 个人中心 -->
             <section id="page-profile" class="page page-hidden page-enter">
                 <div class="text-center mb-6">
-                    <div class="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-ancient-gold to-ancient-brown rounded-full flex items-center justify-center">
-                        <i class="fas fa-user text-4xl text-white"></i>
+                    <div class="relative inline-block mb-4">
+                        <div class="w-28 h-28 mx-auto bg-gradient-to-br from-[#EED046] to-[#5698C3] rounded-full flex items-center justify-center shadow-2xl">
+                            <i class="fas fa-user text-5xl text-white"></i>
+                        </div>
+                        <div class="absolute bottom-1 right-1 w-8 h-8 bg-[#407763] rounded-full border-4 border-white flex items-center justify-center">
+                            <i class="fas fa-check text-white text-xs"></i>
+                        </div>
                     </div>
-                    <h2 class="text-xl font-semibold text-ancient-dark" id="username">诗词爱好者</h2>
-                    <p class="text-ancient-brown text-sm">Lv.5 · 初入诗坛</p>
+                    <h2 class="text-xl font-semibold text-gray-800" id="username">诗词爱好者</h2>
+                    <p class="text-gray-500 text-sm">Lv.5 · 初入诗坛</p>
                 </div>
 
                 <!-- 数据统计 -->
-                <div class="grid grid-cols-3 gap-4 mb-6">
-                    <div class="bg-white/80 rounded-xl p-4 text-center border border-ancient-gold/20">
-                        <p class="text-2xl font-bold text-ancient-gold" id="statWorks">12</p>
-                        <p class="text-sm text-ancient-brown">我的作品</p>
+                <div class="grid grid-cols-3 gap-3 mb-5">
+                    <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-4 text-center border border-white/50 shadow-sm">
+                        <p class="text-2xl font-bold text-gradient" id="statWorks">12</p>
+                        <p class="text-xs text-gray-500">我的作品</p>
                     </div>
-                    <div class="bg-white/80 rounded-xl p-4 text-center border border-ancient-gold/20">
-                        <p class="text-2xl font-bold text-ancient-gold" id="statLikes">368</p>
-                        <p class="text-sm text-ancient-brown">获得点赞</p>
+                    <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-4 text-center border border-white/50 shadow-sm">
+                        <p class="text-2xl font-bold text-gradient" id="statLikes">368</p>
+                        <p class="text-xs text-gray-500">获得点赞</p>
                     </div>
-                    <div class="bg-white/80 rounded-xl p-4 text-center border border-ancient-gold/20">
-                        <p class="text-2xl font-bold text-ancient-gold" id="statCollected">5</p>
-                        <p class="text-sm text-ancient-brown">收藏诗词</p>
+                    <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-4 text-center border border-white/50 shadow-sm">
+                        <p class="text-2xl font-bold text-gradient" id="statCollected">5</p>
+                        <p class="text-xs text-gray-500">收藏诗词</p>
                     </div>
                 </div>
 
                 <!-- 成就系统 -->
-                <div class="bg-white/80 rounded-xl p-4 mb-6 border border-ancient-gold/20">
-                    <h3 class="text-ancient-dark font-semibold mb-3">
-                        <i class="fas fa-trophy text-ancient-gold mr-2"></i>成就图鉴
+                <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-4 mb-5 border border-white/50 shadow-sm">
+                    <h3 class="text-gray-700 font-semibold mb-3 flex items-center">
+                        <i class="fas fa-trophy text-[#EED046] mr-2"></i>成就图鉴
                     </h3>
                     <div class="grid grid-cols-4 gap-3">
-                        <div class="text-center">
-                            <div class="w-12 h-12 mx-auto bg-ancient-gold/20 rounded-full flex items-center justify-center mb-1">
-                                <i class="fas fa-scroll text-ancient-gold"></i>
+                        <div class="text-center group">
+                            <div class="w-14 h-14 mx-auto bg-gradient-to-br from-[#EED046]/20 to-[#EED046]/10 rounded-xl flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-scroll text-[#EED046]"></i>
                             </div>
-                            <p class="text-xs text-ancient-dark">初入诗坛</p>
+                            <p class="text-xs text-gray-600">初入诗坛</p>
                         </div>
-                        <div class="text-center">
-                            <div class="w-12 h-12 mx-auto bg-ancient-gold/20 rounded-full flex items-center justify-center mb-1">
-                                <i class="fas fa-book text-ancient-gold"></i>
+                        <div class="text-center group">
+                            <div class="w-14 h-14 mx-auto bg-gradient-to-br from-[#5698C3]/20 to-[#5698C3]/10 rounded-xl flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-book text-[#5698C3]"></i>
                             </div>
-                            <p class="text-xs text-ancient-dark">唐诗达人</p>
+                            <p class="text-xs text-gray-600">唐诗达人</p>
                         </div>
-                        <div class="text-center opacity-40">
-                            <div class="w-12 h-12 mx-auto bg-gray-200 rounded-full flex items-center justify-center mb-1">
+                        <div class="text-center group opacity-50">
+                            <div class="w-14 h-14 mx-auto bg-gray-100 rounded-xl flex items-center justify-center mb-1">
                                 <i class="fas fa-paint-brush text-gray-400"></i>
                             </div>
                             <p class="text-xs text-gray-400">水墨大师</p>
                         </div>
-                        <div class="text-center opacity-40">
-                            <div class="w-12 h-12 mx-auto bg-gray-200 rounded-full flex items-center justify-center mb-1">
+                        <div class="text-center group opacity-50">
+                            <div class="w-14 h-14 mx-auto bg-gray-100 rounded-xl flex items-center justify-center mb-1">
                                 <i class="fas fa-crown text-gray-400"></i>
                             </div>
                             <p class="text-xs text-gray-400">诗画王者</p>
@@ -459,53 +641,61 @@
                 </div>
 
                 <!-- 功能列表 -->
-                <div class="bg-white/80 rounded-xl overflow-hidden border border-ancient-gold/20">
-                    <button class="w-full px-4 py-4 flex items-center justify-between border-b border-ancient-gold/10 hover:bg-ancient-gold/5 transition-colors">
-                        <span class="flex items-center text-ancient-dark">
-                            <i class="fas fa-history text-ancient-gold mr-3 w-5"></i>历史画卷
+                <div class="bg-white/70 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/50 shadow-sm">
+                    <button class="w-full px-4 py-4 flex items-center justify-between border-b border-gray-100 hover:bg-[#EED046]/5 transition-colors">
+                        <span class="flex items-center text-gray-700">
+                            <i class="fas fa-history text-[#5698C3] mr-3 w-5"></i>历史画卷
                         </span>
-                        <i class="fas fa-chevron-right text-ancient-brown/50"></i>
+                        <i class="fas fa-chevron-right text-gray-300"></i>
                     </button>
-                    <button class="w-full px-4 py-4 flex items-center justify-between border-b border-ancient-gold/10 hover:bg-ancient-gold/5 transition-colors">
-                        <span class="flex items-center text-ancient-dark">
-                            <i class="fas fa-heart text-ancient-vermilion mr-3 w-5"></i>我的收藏
+                    <button class="w-full px-4 py-4 flex items-center justify-between border-b border-gray-100 hover:bg-[#EED046]/5 transition-colors">
+                        <span class="flex items-center text-gray-700">
+                            <i class="fas fa-heart text-[#e74c3c] mr-3 w-5"></i>我的收藏
                         </span>
-                        <i class="fas fa-chevron-right text-ancient-brown/50"></i>
+                        <i class="fas fa-chevron-right text-gray-300"></i>
                     </button>
-                    <button class="w-full px-4 py-4 flex items-center justify-between border-b border-ancient-gold/10 hover:bg-ancient-gold/5 transition-colors">
-                        <span class="flex items-center text-ancient-dark">
-                            <i class="fas fa-cog text-ancient-blue mr-3 w-5"></i>设置
+                    <button class="w-full px-4 py-4 flex items-center justify-between border-b border-gray-100 hover:bg-[#EED046]/5 transition-colors">
+                        <span class="flex items-center text-gray-700">
+                            <i class="fas fa-cog text-[#5698C3] mr-3 w-5"></i>设置
                         </span>
-                        <i class="fas fa-chevron-right text-ancient-brown/50"></i>
+                        <i class="fas fa-chevron-right text-gray-300"></i>
                     </button>
-                    <button class="w-full px-4 py-4 flex items-center justify-between hover:bg-ancient-gold/5 transition-colors">
-                        <span class="flex items-center text-ancient-dark">
-                            <i class="fas fa-info-circle text-ancient-jade mr-3 w-5"></i>关于我们
+                    <button class="w-full px-4 py-4 flex items-center justify-between hover:bg-[#EED046]/5 transition-colors">
+                        <span class="flex items-center text-gray-700">
+                            <i class="fas fa-info-circle text-[#407763] mr-3 w-5"></i>关于我们
                         </span>
-                        <i class="fas fa-chevron-right text-ancient-brown/50"></i>
+                        <i class="fas fa-chevron-right text-gray-300"></i>
                     </button>
                 </div>
             </section>
         </main>
 
         <!-- 底部导航栏 -->
-        <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-ancient-gold/30 z-50">
+        <nav class="fixed bottom-0 left-0 right-0 glass border-t border-white/30 z-50">
             <div class="max-w-6xl mx-auto flex justify-around items-center py-2">
                 <button class="nav-item active flex flex-col items-center py-2 px-4 relative" data-page="home">
-                    <i class="fas fa-book-open text-xl mb-1"></i>
-                    <span class="text-xs">藏书阁</span>
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#EED046]/20 to-[#EED046]/10 flex items-center justify-center mb-1">
+                        <i class="fas fa-book-open text-lg"></i>
+                    </div>
+                    <span class="text-xs font-medium">藏书阁</span>
                 </button>
-                <button class="nav-item flex flex-col items-center py-2 px-4 relative text-ancient-brown" data-page="create">
-                    <i class="fas fa-paint-brush text-xl mb-1"></i>
-                    <span class="text-xs">点墨轩</span>
+                <button class="nav-item flex flex-col items-center py-2 px-4 relative text-gray-500" data-page="create">
+                    <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center mb-1">
+                        <i class="fas fa-paint-brush text-lg"></i>
+                    </div>
+                    <span class="text-xs font-medium">点墨轩</span>
                 </button>
-                <button class="nav-item flex flex-col items-center py-2 px-4 relative text-ancient-brown" data-page="gallery">
-                    <i class="fas fa-images text-xl mb-1"></i>
-                    <span class="text-xs">群英会</span>
+                <button class="nav-item flex flex-col items-center py-2 px-4 relative text-gray-500" data-page="gallery">
+                    <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center mb-1">
+                        <i class="fas fa-images text-lg"></i>
+                    </div>
+                    <span class="text-xs font-medium">群英会</span>
                 </button>
-                <button class="nav-item flex flex-col items-center py-2 px-4 relative text-ancient-brown" data-page="profile">
-                    <i class="fas fa-user text-xl mb-1"></i>
-                    <span class="text-xs">我的</span>
+                <button class="nav-item flex flex-col items-center py-2 px-4 relative text-gray-500" data-page="profile">
+                    <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center mb-1">
+                        <i class="fas fa-user text-lg"></i>
+                    </div>
+                    <span class="text-xs font-medium">我的</span>
                 </button>
             </div>
         </nav>
@@ -514,27 +704,27 @@
     <!-- 登录模态框 -->
     <div id="loginModal" class="fixed inset-0 z-[100] hidden">
         <div class="modal-backdrop absolute inset-0" onclick="closeLoginModal()"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white rounded-2xl p-6 shadow-2xl">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white/95 backdrop-blur-xl rounded-3xl p-6 shadow-2xl border border-white/50">
             <div class="text-center mb-6">
-                <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-ancient-gold to-ancient-brown rounded-full flex items-center justify-center">
-                    <i class="fas fa-user-circle text-3xl text-white"></i>
+                <div class="w-18 h-18 mx-auto mb-4 bg-gradient-to-br from-[#EED046] to-[#5698C3] rounded-2xl flex items-center justify-center shadow-lg">
+                    <i class="fas fa-user-circle text-4xl text-white"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-ancient-dark">登录 / 注册</h3>
-                <p class="text-sm text-ancient-brown mt-1">登录后可保存您的作品和收藏</p>
+                <h3 class="text-xl font-semibold text-gray-800">登录 / 注册</h3>
+                <p class="text-sm text-gray-500 mt-1">登录后可保存您的作品和收藏</p>
             </div>
 
             <div class="space-y-4">
                 <input type="text" placeholder="手机号 / 邮箱"
-                    class="w-full px-4 py-3 bg-ancient-paper/50 border border-ancient-gold/30 rounded-xl focus:outline-none focus:border-ancient-gold text-ancient-dark">
+                    class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#EED046] focus:ring-4 focus:ring-[#EED046]/10 text-gray-700">
                 <input type="password" placeholder="密码"
-                    class="w-full px-4 py-3 bg-ancient-paper/50 border border-ancient-gold/30 rounded-xl focus:outline-none focus:border-ancient-gold text-ancient-dark">
-                <button onclick="handleLogin()" class="w-full btn-ancient py-3 rounded-xl font-semibold">
+                    class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#EED046] focus:ring-4 focus:ring-[#EED046]/10 text-gray-700">
+                <button onclick="handleLogin()" class="w-full btn-modern py-3 rounded-xl font-semibold">
                     登录
                 </button>
             </div>
 
             <div class="mt-4 text-center">
-                <button onclick="closeLoginModal()" class="text-ancient-brown hover:text-ancient-gold text-sm">
+                <button onclick="closeLoginModal()" class="text-gray-500 hover:text-[#EED046] text-sm">
                     游客模式浏览
                 </button>
             </div>
@@ -544,10 +734,12 @@
     <!-- 分类筛选模态框 -->
     <div id="categoryModal" class="fixed inset-0 z-[100] hidden">
         <div class="modal-backdrop absolute inset-0" onclick="closeCategoryModal()"></div>
-        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 shadow-2xl max-h-[70vh] overflow-y-auto">
+        <div class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl rounded-t-3xl p-6 shadow-2xl max-h-[70vh] overflow-y-auto">
             <div class="flex items-center justify-between mb-4">
-                <h3 id="categoryModalTitle" class="text-lg font-semibold text-ancient-dark">选择分类</h3>
-                <button onclick="closeCategoryModal()" class="text-ancient-brown hover:text-ancient-gold">
+                <h3 id="categoryModalTitle" class="text-lg font-semibold text-gray-800 flex items-center">
+                    <i class="fas fa-filter text-[#5698C3] mr-2"></i>选择分类
+                </h3>
+                <button onclick="closeCategoryModal()" class="text-gray-400 hover:text-[#EED046] transition-colors">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>

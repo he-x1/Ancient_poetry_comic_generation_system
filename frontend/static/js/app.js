@@ -105,12 +105,24 @@ function switchPage(pageName) {
     // 更新导航栏状态
     document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
-        item.classList.add('text-ancient-brown');
+        item.classList.remove('text-gray-500');
+        // 移除激活状态的背景
+        const iconBg = item.querySelector('div');
+        if (iconBg) {
+            iconBg.classList.remove('bg-gradient-to-br', 'from-[#EED046]/20', 'to-[#EED046]/10');
+            iconBg.classList.add('bg-gray-100');
+        }
     });
+
     const activeNav = document.querySelector(`.nav-item[data-page="${pageName}"]`);
     if (activeNav) {
         activeNav.classList.add('active');
-        activeNav.classList.remove('text-ancient-brown');
+        activeNav.classList.add('text-gray-500');
+        const iconBg = activeNav.querySelector('div');
+        if (iconBg) {
+            iconBg.classList.remove('bg-gray-100');
+            iconBg.classList.add('bg-gradient-to-br', 'from-[#EED046]/20', 'to-[#EED046]/10');
+        }
     }
 
     state.currentPage = pageName;
@@ -136,18 +148,18 @@ async function loadPoems(filters = {}) {
 function renderPoemList(poems) {
     const container = document.getElementById('poemList');
     container.innerHTML = poems.map(poem => `
-        <div class="poem-card card-hover rounded-xl p-4 cursor-pointer" onclick="showPoemDetail(${poem.id})">
-            <div class="flex items-start justify-between mb-2">
+        <div class="poem-card card-hover rounded-2xl p-5 cursor-pointer" onclick="showPoemDetail(${poem.id})">
+            <div class="flex items-start justify-between mb-3">
                 <div>
-                    <h4 class="text-lg font-semibold text-ancient-dark">${poem.title}</h4>
-                    <p class="text-sm text-ancient-brown">${poem.author} · ${poem.dynasty}</p>
+                    <h4 class="text-lg font-semibold text-gray-800">${poem.title}</h4>
+                    <p class="text-sm text-gray-500">${poem.author} · ${poem.dynasty}</p>
                 </div>
-                <span class="px-2 py-1 bg-ancient-gold/20 text-ancient-gold text-xs rounded-full">${poem.category}</span>
+                <span class="px-3 py-1 bg-gradient-to-br from-[#EED046]/20 to-[#EED046]/10 text-[#d4b83e] text-xs rounded-full font-medium">${poem.category}</span>
             </div>
-            <p class="text-ancient-dark/80 text-sm line-clamp-2">${poem.content}</p>
-            <div class="flex items-center justify-between mt-3">
-                <span class="text-xs text-ancient-brown/70">${poem.grade}</span>
-                <i class="fas fa-chevron-right text-ancient-gold/50"></i>
+            <p class="text-gray-600 text-sm line-clamp-2 leading-relaxed">${poem.content}</p>
+            <div class="flex items-center justify-between mt-4">
+                <span class="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full">${poem.grade}</span>
+                <i class="fas fa-chevron-right text-[#5698C3]/50"></i>
             </div>
         </div>
     `).join('');
@@ -171,35 +183,41 @@ function renderPoemDetail(poem) {
         const chars = line.map(([char, pinyin]) =>
             `<ruby>${char}<rt>${pinyin}</rt></ruby>`
         ).join('');
-        return `<p class="text-xl leading-loose text-ancient-dark mb-2 font-serif-cn">${chars}</p>`;
+        return `<p class="text-xl leading-loose text-gray-800 mb-3 font-serif-cn">${chars}</p>`;
     }).join('');
 
     container.innerHTML = `
-        <div class="bg-gradient-to-r from-ancient-ink to-ancient-dark p-6 text-white">
-            <div class="flex items-center justify-between mb-4">
-                <div>
-                    <h2 class="text-2xl font-calligraphy mb-1">${poem.title}</h2>
-                    <p class="text-ancient-gold">${poem.author} · ${poem.dynasty}代</p>
+        <div class="bg-gradient-to-br from-[#1a2a3a] via-[#2a3f52] to-[#1a2a3a] p-8 text-white relative overflow-hidden">
+            <!-- 装饰元素 -->
+            <div class="absolute top-0 right-0 w-48 h-48 bg-[#EED046]/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-[#5698C3]/10 rounded-full blur-3xl"></div>
+
+            <div class="relative z-10">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 class="text-3xl font-calligraphy mb-2 text-gradient">${poem.title}</h2>
+                        <p class="text-[#5698C3]">${poem.author} · ${poem.dynasty}代</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button onclick="playAudio('${poem.audio_url}')" class="w-12 h-12 bg-gradient-to-br from-[#EED046] to-[#d4b83e] rounded-full flex items-center justify-center hover:shadow-lg hover:scale-105 transition-all">
+                            <i class="fas fa-volume-up text-white text-lg"></i>
+                        </button>
+                        <button onclick="collectPoem(${poem.id})" class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-all">
+                            <i class="far fa-heart text-white text-lg"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="flex space-x-3">
-                    <button onclick="playAudio('${poem.audio_url}')" class="w-12 h-12 bg-ancient-gold rounded-full flex items-center justify-center hover:bg-ancient-gold/80 transition-colors">
-                        <i class="fas fa-volume-up text-white text-lg"></i>
-                    </button>
-                    <button onclick="collectPoem(${poem.id})" class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
-                        <i class="far fa-heart text-white text-lg"></i>
-                    </button>
+                <div class="flex space-x-2">
+                    <span class="px-3 py-1 bg-white/20 rounded-full text-sm">${poem.category}</span>
+                    <span class="px-3 py-1 bg-white/20 rounded-full text-sm">${poem.grade}</span>
                 </div>
-            </div>
-            <div class="flex space-x-2">
-                <span class="px-3 py-1 bg-white/20 rounded-full text-sm">${poem.category}</span>
-                <span class="px-3 py-1 bg-white/20 rounded-full text-sm">${poem.grade}</span>
             </div>
         </div>
 
         <div class="p-6">
-            <div class="mb-6 p-4 bg-ancient-paper/50 rounded-xl">
-                <h3 class="text-ancient-dark font-semibold mb-3">
-                    <i class="fas fa-book-open text-ancient-gold mr-2"></i>原文
+            <div class="mb-6 p-5 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-100">
+                <h3 class="text-gray-800 font-semibold mb-3 flex items-center">
+                    <i class="fas fa-book-open text-[#5698C3] mr-2"></i>原文
                 </h3>
                 <div class="text-center py-4">
                     ${pinyinContent}
@@ -207,25 +225,25 @@ function renderPoemDetail(poem) {
             </div>
 
             <div class="mb-6">
-                <button onclick="toggleSection('translation')" class="w-full flex items-center justify-between p-4 bg-ancient-paper/30 rounded-xl hover:bg-ancient-paper/50 transition-colors">
-                    <span class="flex items-center text-ancient-dark font-semibold">
-                        <i class="fas fa-language text-ancient-gold mr-2"></i>译文与注释
+                <button onclick="toggleSection('translation')" class="w-full flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-gray-100">
+                    <span class="flex items-center text-gray-800 font-semibold">
+                        <i class="fas fa-language text-[#5698C3] mr-2"></i>译文与注释
                     </span>
-                    <i class="fas fa-chevron-down text-ancient-brown transition-transform" id="translationIcon"></i>
+                    <i class="fas fa-chevron-down text-gray-400 transition-transform" id="translationIcon"></i>
                 </button>
-                <div id="translationSection" class="hidden p-4 bg-ancient-paper/30 rounded-xl mt-2">
-                    <h4 class="text-ancient-dark font-semibold mb-2">译文</h4>
-                    <p class="text-ancient-dark/80 leading-relaxed mb-4">${poem.translation}</p>
-                    <h4 class="text-ancient-dark font-semibold mb-2">注释</h4>
-                    <p class="text-ancient-dark/80 leading-relaxed">${poem.annotation}</p>
+                <div id="translationSection" class="hidden p-4 bg-gray-50 rounded-xl mt-2 border border-gray-100">
+                    <h4 class="text-gray-800 font-semibold mb-2">译文</h4>
+                    <p class="text-gray-600 leading-relaxed mb-4">${poem.translation}</p>
+                    <h4 class="text-gray-800 font-semibold mb-2">注释</h4>
+                    <p class="text-gray-600 leading-relaxed">${poem.annotation}</p>
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="createFromPoem(${poem.id})" class="btn-ancient py-3 rounded-xl font-semibold">
+                <button onclick="createFromPoem(${poem.id})" class="btn-modern py-3 rounded-xl font-semibold">
                     <i class="fas fa-paint-brush mr-2"></i>创作绘本
                 </button>
-                <button onclick="sharePoem(${poem.id})" class="bg-ancient-paper border-2 border-ancient-gold text-ancient-dark py-3 rounded-xl font-semibold hover:bg-ancient-gold/10 transition-all">
+                <button onclick="sharePoem(${poem.id})" class="bg-gray-50 border-2 border-gray-200 text-gray-700 py-3 rounded-xl font-semibold hover:border-[#5698C3] hover:bg-[#5698C3]/5 transition-all">
                     <i class="fas fa-share-alt mr-2"></i>分享
                 </button>
             </div>
@@ -309,9 +327,9 @@ function showCategoryModal(type) {
     };
 
     options.innerHTML = items.map(item => `
-        <button onclick="applyFilter('${filterKey}', '${item}')" class="p-4 bg-ancient-paper/50 rounded-xl border border-ancient-gold/20 hover:border-ancient-gold hover:bg-ancient-gold/10 transition-all text-center">
-            <i class="fas ${icons[type.replace('dynasty', 'dynasty').replace('theme', 'category').replace('grade', 'grade')]} text-ancient-gold mb-2"></i>
-            <p class="text-sm text-ancient-dark">${item}</p>
+        <button onclick="applyFilter('${filterKey}', '${item}')" class="p-4 bg-gray-50 rounded-xl border border-gray-200 hover:border-[#EED046] hover:bg-[#EED046]/5 transition-all text-center">
+            <i class="fas ${icons[type.replace('dynasty', 'dynasty').replace('theme', 'category').replace('grade', 'grade')]} text-[#5698C3] mb-2"></i>
+            <p class="text-sm text-gray-700">${item}</p>
         </button>
     `).join('');
 
@@ -341,9 +359,9 @@ function showFilterSection(key, value) {
 
     title.textContent = `筛选: ${keyNames[key]}`;
     options.innerHTML = `
-        <span class="px-3 py-1 bg-ancient-gold/20 text-ancient-dark rounded-full flex items-center">
+        <span class="px-3 py-1 bg-[#EED046]/20 text-gray-700 rounded-full flex items-center">
             ${value}
-            <button onclick="clearFilter()" class="ml-2 text-ancient-brown hover:text-ancient-vermilion">
+            <button onclick="clearFilter()" class="ml-2 text-gray-400 hover:text-red-500">
                 <i class="fas fa-times"></i>
             </button>
         </span>
@@ -360,13 +378,13 @@ function clearFilter() {
 function selectStyle(style) {
     state.selectedStyle = style;
     document.querySelectorAll('.style-btn').forEach(btn => {
-        btn.classList.remove('active', 'border-ancient-gold', 'bg-ancient-gold/10', 'text-ancient-dark');
-        btn.classList.add('border-ancient-gold/30', 'text-ancient-brown');
+        btn.classList.remove('active', 'border-[#EED046]', 'bg-[#EED046]/10', 'text-gray-800');
+        btn.classList.add('border-gray-200', 'text-gray-600');
     });
     const activeBtn = document.querySelector(`.style-btn[data-style="${style}"]`);
     if (activeBtn) {
-        activeBtn.classList.add('active', 'border-ancient-gold', 'bg-ancient-gold/10', 'text-ancient-dark');
-        activeBtn.classList.remove('border-ancient-gold/30', 'text-ancient-brown');
+        activeBtn.classList.add('active', 'border-[#EED046]', 'bg-[#EED046]/10', 'text-gray-800');
+        activeBtn.classList.remove('border-gray-200', 'text-gray-600');
     }
 }
 
@@ -414,9 +432,9 @@ function showGeneratedImages(images) {
 
     const grid = document.getElementById('imageGrid');
     grid.innerHTML = images.map((img, index) => `
-        <div class="relative rounded-xl overflow-hidden bg-gradient-to-br from-ancient-ink to-ancient-dark aspect-[4/3] flex items-center justify-center">
+        <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#1a2a3a] to-[#2a3f52] aspect-[4/3] flex items-center justify-center shadow-lg">
             <div class="text-center text-white">
-                <i class="fas fa-image text-4xl mb-2 text-ancient-gold/50"></i>
+                <i class="fas fa-image text-4xl mb-2 text-[#EED046]/50"></i>
                 <p class="text-sm text-white/70">绘本 ${index + 1}</p>
                 <p class="text-xs text-white/50 mt-1">AI生成效果预览</p>
             </div>
@@ -443,26 +461,29 @@ async function loadGallery() {
 function renderGallery(works) {
     const container = document.getElementById('galleryList');
     container.innerHTML = works.map(work => `
-        <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
-            <div class="aspect-square bg-gradient-to-br from-ancient-ink to-ancient-dark flex items-center justify-center">
-                <div class="text-center text-white">
-                    <i class="fas fa-image text-3xl mb-2 text-ancient-gold/50"></i>
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-md card-hover border border-white/50">
+            <div class="aspect-square bg-gradient-to-br from-[#1a2a3a] to-[#2a3f52] flex items-center justify-center relative overflow-hidden">
+                <!-- 装饰 -->
+                <div class="absolute top-0 right-0 w-24 h-24 bg-[#EED046]/10 rounded-full blur-2xl"></div>
+                <div class="absolute bottom-0 left-0 w-20 h-20 bg-[#5698C3]/10 rounded-full blur-2xl"></div>
+                <div class="text-center text-white relative z-10">
+                    <i class="fas fa-image text-3xl mb-2 text-[#EED046]/50"></i>
                     <p class="text-xs text-white/70">${work.style}</p>
                 </div>
             </div>
             <div class="p-3">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-sm font-semibold text-ancient-dark">${work.poem_title}</span>
-                    <span class="text-xs px-2 py-1 bg-ancient-gold/20 text-ancient-gold rounded-full">${work.style}</span>
+                    <span class="text-sm font-semibold text-gray-800">${work.poem_title}</span>
+                    <span class="text-xs px-2 py-1 bg-[#EED046]/20 text-[#d4b83e] rounded-full">${work.style}</span>
                 </div>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <div class="w-6 h-6 bg-ancient-gold rounded-full flex items-center justify-center mr-2">
+                        <div class="w-6 h-6 bg-gradient-to-br from-[#5698C3] to-[#407763] rounded-full flex items-center justify-center mr-2">
                             <i class="fas fa-user text-white text-xs"></i>
                         </div>
-                        <span class="text-xs text-ancient-brown">${work.username}</span>
+                        <span class="text-xs text-gray-500">${work.username}</span>
                     </div>
-                    <button onclick="likeWork(${work.id})" class="flex items-center text-ancient-vermilion hover:text-ancient-vermilion/70">
+                    <button onclick="likeWork(${work.id})" class="flex items-center text-red-500 hover:text-red-600">
                         <i class="far fa-heart mr-1"></i>
                         <span class="text-xs">${work.likes}</span>
                     </button>
